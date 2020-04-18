@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<Pane fx:id="button_stt" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #20bf6b;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Jeu">
+   <children>
+      <Button fx:id="init" layoutX="353.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#Initialiser" prefHeight="155.0" prefWidth="318.0" style="-fx-border-color: red; -fx-border-width: 50px 0px 0px; -fx-background-color: white;" text="Démarrer">
+         <font>
+            <Font size="44.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="95.0" fitWidth="756.0" layoutX="134.0" layoutY="262.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/route.jpeg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="95.0" fitWidth="756.0" layoutX="134.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/route.jpeg" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" layoutX="14.0" layoutY="571.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vos cartes :">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Text>
+      <ProgressBar layoutX="134.0" layoutY="346.0" prefHeight="18.0" prefWidth="756.0" progress="0.37" />
+      <ProgressBar layoutX="134.0" layoutY="496.0" prefHeight="18.0" prefWidth="756.0" progress="0.37" />
+      <Button fx:id="init1" layoutX="890.0" layoutY="597.0" mnemonicParsing="false" onMouseClicked="#Initialiser" prefHeight="63.0" prefWidth="116.0" style="-fx-border-color: red; -fx-border-width: 20px 0px 0px; -fx-border-radius: 0px; -fx-background-color: white;" text="Piocher">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="39.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/25.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="159.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/25.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="279.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/25.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="401.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/25.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="523.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/25.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="646.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/25.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="768.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/25.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>
