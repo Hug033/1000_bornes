@@ -9,14 +9,9 @@
 <?import javafx.scene.text.Text?>
 
 
-<Pane fx:id="button_stt" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #20bf6b;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Jeu">
+<Pane fx:id="button_stt" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #303952;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Jeu">
    <children>
-      <Button fx:id="init" layoutX="353.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#Initialiser" prefHeight="155.0" prefWidth="318.0" style="-fx-border-color: red; -fx-border-width: 50px 0px 0px; -fx-background-color: white;" text="Démarrer">
-         <font>
-            <Font size="44.0" />
-         </font>
-      </Button>
-      <ImageView fitHeight="95.0" fitWidth="756.0" layoutX="134.0" layoutY="262.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="carte1" fitHeight="95.0" fitWidth="756.0" layoutX="134.0" layoutY="262.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/route.jpeg" />
          </image>
@@ -31,47 +26,93 @@
             <Font name="System Bold" size="29.0" />
          </font>
       </Text>
-      <ProgressBar layoutX="134.0" layoutY="346.0" prefHeight="18.0" prefWidth="756.0" progress="0.37" />
-      <ProgressBar layoutX="134.0" layoutY="496.0" prefHeight="18.0" prefWidth="756.0" progress="0.37" />
-      <Button fx:id="init1" layoutX="890.0" layoutY="597.0" mnemonicParsing="false" onMouseClicked="#Initialiser" prefHeight="63.0" prefWidth="116.0" style="-fx-border-color: red; -fx-border-width: 20px 0px 0px; -fx-border-radius: 0px; -fx-background-color: white;" text="Piocher">
+      <ProgressBar fx:id="j1Progress" layoutX="134.0" layoutY="346.0" prefHeight="18.0" prefWidth="756.0" progress="0.0" />
+      <ProgressBar layoutX="134.0" layoutY="496.0" prefHeight="18.0" prefWidth="756.0" progress="0.0" />
+      <Button fx:id="init1" layoutX="890.0" layoutY="597.0" mnemonicParsing="false" onMouseClicked="#JouerPiocher" prefHeight="70.0" prefWidth="116.0" style="-fx-border-color: red; -fx-border-width: 20px 0px 0px; -fx-border-radius: 0px; -fx-background-color: white;" text="Piocher">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Button>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="39.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="carte1" fitHeight="150.0" fitWidth="200.0" layoutX="39.0" layoutY="597.0" onMouseClicked="#select1" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/25.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="159.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="carte2" fitHeight="150.0" fitWidth="200.0" layoutX="159.0" layoutY="597.0" onMouseClicked="#select2" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/25.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="279.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="carte3" fitHeight="150.0" fitWidth="200.0" layoutX="279.0" layoutY="597.0" onMouseClicked="#select3" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/25.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="401.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="carte4" fitHeight="150.0" fitWidth="200.0" layoutX="401.0" layoutY="597.0" onMouseClicked="#select4" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/25.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="523.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="carte5" fitHeight="150.0" fitWidth="200.0" layoutX="523.0" layoutY="597.0" onMouseClicked="#select5" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/25.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="646.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="carte6" fitHeight="150.0" fitWidth="200.0" layoutX="646.0" layoutY="597.0" onMouseClicked="#select6" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/25.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="768.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="carte7" fitHeight="150.0" fitWidth="200.0" layoutX="768.0" layoutY="597.0" onMouseClicked="#select7" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/25.png" />
          </image>
       </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="412.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/logo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="carteMalus" fitHeight="150.0" fitWidth="200.0" layoutX="227.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/stop.png" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" layoutX="17.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ta progression :">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="24.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="La progression de ton ordinateur : " wrappingWidth="106.1440658569336">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="94.0" fitWidth="48.0" layoutX="924.0" layoutY="276.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/finish.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="94.0" fitWidth="48.0" layoutX="924.0" layoutY="425.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/finish.png" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" layoutX="739.0" layoutY="588.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pour jouer sélectionne la carte puis l'action --&gt; jouer ou piocher" wrappingWidth="528.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Text>
+      <Button fx:id="init11" layoutX="890.0" layoutY="677.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="116.0" style="-fx-border-color: red; -fx-border-width: 20px 0px 0px; -fx-border-radius: 0px; -fx-background-color: white;" text="Jouer">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Button>
+      <Pane fx:id="blurPane" opacity="0.83" prefHeight="775.0" prefWidth="1024.0" style="-fx-background-color: #596275;" />
+      <Button fx:id="init" layoutX="248.0" layoutY="265.0" mnemonicParsing="false" onMouseClicked="#Initialiser" prefHeight="239.0" prefWidth="528.0" style="-fx-border-color: red; -fx-border-width: 50px 0px 0px; -fx-background-color: white;" text="Démarrer">
+         <font>
+            <Font name="System Bold" size="44.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

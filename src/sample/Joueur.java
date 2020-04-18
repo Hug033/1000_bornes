@@ -11,9 +11,4 @@ public class Joueur {
     public Liste Malus = new Liste(); // Malus du joueur
     public int NbKilometre = 0;
     public String id; // Nom du joueur
-
-    public void Jouer()
-    {
-
-    }
 }

@@ -1,12 +1,15 @@
 package sample.outils;
 
+import sample.Carte;
+
 public class File {
-    private static int taille = 10;
-    private int[] tableau;
+    private static int taille;
+    private Carte[] tableau; // contenu de la pile
     private int entree, sortie;
 
-    File() {
-        this.tableau = new int[taille];
+    public File(int tailleParam) {
+        this.taille = tailleParam;
+        this.tableau = new Carte[taille];
         this.entree = this.sortie = 0;
     }
 
@@ -18,26 +21,26 @@ public class File {
         return ((this.sortie + 1) % taille == this.entree);
     }
 
-    public void Enfiler(int e) {
+    public void Enfiler(Carte e) {
         if (!EstPleine()) {
             this.tableau[sortie] = e;
             this.sortie = (sortie + 1) % taille;
         }
     }
 
-    public int Defiler() {
+    public Carte Defiler() {
         if (!EstVide()) {
-            int c = this.tableau[entree];
+            Carte c = this.tableau[entree];
             this.entree = (this.entree + 1) % taille;
             return (c);
         }
-        return 0;
+        return null;
     }
 
     public void Afficher()
     {
         for(int i = 0; i < this.tableau.length; i++)
-            System.out.println(this.tableau[i]);
+            System.out.println(this.tableau[i].GetNom());
         System.out.println("-----------------");
     }
 }
