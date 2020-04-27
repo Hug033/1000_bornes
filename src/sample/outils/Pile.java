@@ -42,7 +42,7 @@ public class Pile {
         return val;
     }
 
-    boolean Est_vide() {
+    public boolean Est_vide() {
         return (Sommet == -1);
     }
 

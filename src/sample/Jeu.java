@@ -32,6 +32,8 @@ public class Jeu extends Application {
     @FXML
     public ProgressBar j1Progress;
     @FXML
+    public ProgressBar j2Progress;
+    @FXML
     public ImageView carte1;
     @FXML
     public ImageView carte2;
@@ -85,7 +87,7 @@ public class Jeu extends Application {
         // On ajoute les cartes 'Attaques' --> le type est 0
 
         // Ajout des cartes 'Feu rouge'
-        Carte feuRouge = new Carte("Feu Rouge", 0, "stop.png");
+        Carte feuRouge = new Carte("Feu rouge", 0, "stop.png");
         for (int i = 0; i < 4; i++)
             toutesCartes[i] = feuRouge;
 
@@ -95,7 +97,7 @@ public class Jeu extends Application {
             toutesCartes[i] = vitesse;
 
         // Ajout des cartes 'Panne sèche'
-        Carte panne = new Carte("Panne sèche", 0, "panne.png");
+        Carte panne = new Carte("Panne seche", 0, "panne.png");
         for (int i = 7; i < 10; i++)
             toutesCartes[i] = panne;
 
@@ -186,9 +188,9 @@ public class Jeu extends Application {
         }
         c.afficherCarteJoueur(this);
 
-        // On ajoute une carte malus a chaque joueur dans la pile des malus (il faut toujours un feu vert pour commencer)
-        setMalus(j1, new Carte("Feu Rouge", 0, "stop.png"));
-        setMalus(j2, new Carte("Feu Rouge", 0, "stop.png"));
+        // On ajoute une carte malus a chaque joueur dans la pile des malus (il faut toujours un feu vert pour commencer au 1000 bornes)
+        setMalus(j1, new Carte("Feu rouge", 0, "stop.png"));
+        setMalus(j2, new Carte("Feu rouge", 0, "stop.png"));
     }
 
     // Retirer une carte de la pioche et la retourne
@@ -258,15 +260,10 @@ public class Jeu extends Application {
 
     }
 
-    public void JoueurSuivant() {
-
-    }
-
     // Permet au joueur de piocher
     public void JouerPiocher() {
-        if (carteSelectionne != null) {
+        if (carteSelectionne != null && !Pioche.Est_vide()) {
             ElementListe temp = j1.Main.getPremier();
-            boolean sortir = false;
             do {
                 if (temp.getValeur() != carteSelectionne) {
                     temp = temp.getSuivant();
@@ -277,12 +274,160 @@ public class Jeu extends Application {
             j1.Main.ajouterAuDebut(Piocher());
             c.afficherCarteJoueur(this);
             c.resetSelection(this);
+            JouerOrdinateur();
         }
     }
 
-    // Permet au joueur d'avancer, ou de mettre des malus a l'adversaire, ou de contrer une attaque
-    public void Jouer()
-    {
+    private Carte findCarteByType(int type) {
+        ElementListe temp = j2.Main.getPremier();
+        do {
+            if (temp.getValeur().GetType() == type)
+                return temp.getValeur();
 
+            temp = temp.getSuivant();
+        } while (temp != null && temp.getSuivant() != null);
+
+        return null;
+    }
+
+    private boolean trouverCarteParNom(String nom) {
+        ElementListe temp = j2.Main.getPremier();
+        do {
+            if (temp.getValeur().GetNom() == nom) {
+                OrdinateurPioche(temp.getValeur());
+                return true;
+            }
+            temp = temp.getSuivant();
+        } while (temp != null && temp.getSuivant() != null);
+
+        return false;
+    }
+
+    // Vérifie si les cartes parades sont jouables
+    private Carte retirerMalus(Joueur j) {
+        ElementListe temp = j.Malus.getPremier();
+        do {
+            if (j == j1) {
+                if (carteSelectionne.GetNom() == "Feu vert" && temp.getValeur().GetNom() == "Feu rouge")
+                    return temp.getValeur();
+                else if (carteSelectionne.GetNom() == "Fin de limitation" && temp.getValeur().GetNom() == "Limitation de vitesse")
+                    return temp.getValeur();
+                else if (carteSelectionne.GetNom() == "Essence" && temp.getValeur().GetNom() == "Panne seche")
+                    return temp.getValeur();
+                else if (carteSelectionne.GetNom() == "Roue de secours" && temp.getValeur().GetNom() == "Crevaison")
+                    return temp.getValeur();
+                else if (carteSelectionne.GetNom() == "Depanneuse" && temp.getValeur().GetNom() == "Accident")
+                    return temp.getValeur();
+            } else {
+                if (temp.getValeur().GetNom() == "Feu rouge" && trouverCarteParNom("Feu vert") )
+                    return temp.getValeur();
+                else if (temp.getValeur().GetNom() == "Limitation de vitesse" && trouverCarteParNom("Fin de limitation") )
+                    return temp.getValeur();
+                else if (temp.getValeur().GetNom() == "Panne seche" && trouverCarteParNom("Essence"))
+                    return temp.getValeur();
+                else if (temp.getValeur().GetNom() == "Crevaison" && trouverCarteParNom("Roue de secours"))
+                    return temp.getValeur();
+                else if (temp.getValeur().GetNom() == "Accident" && trouverCarteParNom("Depanneuse"))
+                    return temp.getValeur();
+            }
+            temp = temp.getSuivant(); // On passe à la carte suivante
+        } while (temp != null && temp.getSuivant() != null);
+
+        return null;
+    }
+
+    // Permet au joueur d'avancer, ou de mettre des malus a l'adversaire, ou de contrer une attaque
+    public void Jouer() {
+        if (carteSelectionne != null) {
+            // Si le joueur a un malus et la carte sélectionné est une carte étape
+            if (j1.Malus.getLongueur() != 0 && carteSelectionne.GetType() == 2)
+                return;
+
+                // Sinon si la carte est une carte malus en l'ajoute à la liste des malus de l'autre joueur
+            else if (carteSelectionne.GetType() == 0)
+                j2.Malus.ajouterAuDebut(carteSelectionne);
+
+                // Sinon si la carte est une carte parade
+            else if (carteSelectionne.GetType() == 1) {
+                // On vérifie s'il y a des malus sinon les cartes parades ne sont pas jouables
+                if (j1.Malus.getLongueur() == 0)
+                    return; // Si il n'y a pas de cartes malus les cartes parades ne sont pas jouable
+                else if (retirerMalus(j1) == null)
+                    return; // Si il n'y a pas de cartes malus que correspond a la carte parade sélectionné l'action n'est pas jouable
+                else {
+                    j1.Malus.retirerPremiereOccurrence_R(retirerMalus(j1)); // On retire la carte malus qui correspond à la parade
+                    if(j1.Malus.getLongueur() != 0)
+                        carteMalus.setImage(new Image("file:src/sample/images/" + j1.Malus.getPremier().getValeur().GetNomImage()));
+                    else
+                        carteMalus.setVisible(false);
+                }
+            }
+            // Sinon si la carte est un carte étape
+            else if (carteSelectionne.GetType() == 2) {
+                // Si le nombre de kilomètre est bien inférieur à 1000 alors on ajoute de kilomètre
+                if (j1.NbKilometre + carteSelectionne.GetKm() <= 1000) {
+                    j1.NbKilometre += carteSelectionne.GetKm();
+                    j1Progress.setProgress(j1.NbKilometre / 1000.0);
+                } else
+                    return;
+            }
+
+            // On retire la carte jouer on on en ajoute une autre
+            ElementListe temp = j1.Main.getPremier();
+            do {
+                if (temp.getValeur() != carteSelectionne) {
+                    temp = temp.getSuivant();
+                }
+            } while (temp.getValeur() != carteSelectionne);
+            Tas.Enfiler(temp.getValeur());
+            j1.Main.retirerPremiereOccurrence_R(temp.getValeur());
+            if(!Pioche.Est_vide())
+                j1.Main.ajouterAuDebut(Piocher());
+            c.afficherCarteJoueur(this);
+            c.resetSelection(this);
+
+            // On fait jouer l'ordinateur
+            JouerOrdinateur();
+        }
+    }
+
+    // Permet à l'ordinateur de jouer
+    private void JouerOrdinateur() {
+        Carte carteRobot;
+
+        // Si l'ordinateur a des malus on essaye de les enlever
+        if (j2.Malus.getLongueur() != 0 && (carteRobot = retirerMalus(j2)) != null) {
+            j2.Malus.retirerPremiereOccurrence_R(carteRobot); // On retire la carte malus qui correspond à la parade
+            return;
+        }
+
+        // Sinon si l'on a pas de malus et que l'on peut avancer on avance
+        else if (j2.Malus.getLongueur() == 0 && findCarteByType(2) != null) {
+            carteRobot = findCarteByType(2);
+            if (j2.NbKilometre + carteRobot.GetKm() <= 1000) {
+                j2.NbKilometre += carteRobot.GetKm();
+                j2Progress.setProgress(j2.NbKilometre / 1000.0);
+                OrdinateurPioche(carteRobot);
+            } else {
+                OrdinateurPioche(carteRobot);
+            }
+        }
+
+        // Sinon si l'on possede des attaques on bloque le joueur 1
+        else if((carteRobot = findCarteByType(0)) != null){
+                setMalus(j1, carteRobot);
+                OrdinateurPioche(carteRobot);
+        }
+
+        // Sinon on pioche une carte
+        else
+            OrdinateurPioche(j2.Main.getPremier().getValeur());
+    }
+
+    // Retire une carte du robot pour l'ajouter et en pioche une nouvelle
+    private void OrdinateurPioche(Carte c) {
+        j2.Main.retirerPremiereOccurrence_R(c); // On retire la carte parade avant de l'envoyer
+        if(!Pioche.Est_vide())
+            j2.Main.ajouterAuDebut(Piocher());
     }
 }

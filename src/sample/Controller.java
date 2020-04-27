@@ -29,28 +29,49 @@ public class Controller {
     {
         ElementListe temp = j.j1.Main.getPremier();
         int compteur = 0;
-        while(temp != null)
+        while(temp != null) // TODO plus de carte pioche
         {
             if(compteur == 0){
-                j.carte1.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
+                if(temp.getValeur() == null)
+                    j.carte1.setVisible(false);
+                else
+                    j.carte1.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
                 compteur++;
             } else if (compteur == 1) {
-                j.carte2.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
+                if(temp.getValeur() == null)
+                    j.carte2.setVisible(false);
+                else
+                    j.carte2.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
                 compteur++;
             } else if (compteur == 2) {
-                j.carte3.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
+                if(temp.getValeur() == null)
+                    j.carte3.setVisible(false);
+                else
+                    j.carte3.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
                 compteur++;
             } else if (compteur == 3) {
-                j.carte4.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
+                if(temp.getValeur() == null)
+                    j.carte4.setVisible(false);
+                else
+                    j.carte4.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
                 compteur++;
             } else if (compteur == 4) {
-                j.carte5.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
+                if(temp.getValeur() == null)
+                    j.carte5.setVisible(false);
+                else
+                    j.carte5.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
                 compteur++;
             } else if (compteur == 5) {
-                j.carte6.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
+                if(temp.getValeur() == null)
+                    j.carte6.setVisible(false);
+                else
+                    j.carte6.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
                 compteur++;
             } else if (compteur == 6) {
-                j.carte7.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
+                if(temp.getValeur() == null)
+                    j.carte7.setVisible(false);
+                else
+                    j.carte7.setImage(new Image("file:src/sample/images/" + temp.getValeur().GetNomImage()));
                 compteur++;
             }
             temp = temp.getSuivant();
@@ -67,6 +88,11 @@ public class Controller {
         j.carte6.setOpacity(1);
         j.carte7.setOpacity(1);
         j.carteSelectionne = null;
+        if(j.j1.Malus.getLongueur() == 0)
+            j.carteMalus.setVisible(false);
+        else {
+            j.carteMalus.setVisible(true);
+        }
     }
 
 }

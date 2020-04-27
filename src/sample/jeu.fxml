@@ -8,7 +8,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <Pane fx:id="button_stt" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #303952;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Jeu">
    <children>
       <ImageView fx:id="carte1" fitHeight="95.0" fitWidth="756.0" layoutX="134.0" layoutY="262.0" pickOnBounds="true" preserveRatio="true">
@@ -27,7 +26,7 @@
          </font>
       </Text>
       <ProgressBar fx:id="j1Progress" layoutX="134.0" layoutY="346.0" prefHeight="18.0" prefWidth="756.0" progress="0.0" />
-      <ProgressBar layoutX="134.0" layoutY="496.0" prefHeight="18.0" prefWidth="756.0" progress="0.0" />
+      <ProgressBar fx:id="j2Progress" layoutX="134.0" layoutY="496.0" prefHeight="18.0" prefWidth="756.0" progress="0.0" />
       <Button fx:id="init1" layoutX="890.0" layoutY="597.0" mnemonicParsing="false" onMouseClicked="#JouerPiocher" prefHeight="70.0" prefWidth="116.0" style="-fx-border-color: red; -fx-border-width: 20px 0px 0px; -fx-border-radius: 0px; -fx-background-color: white;" text="Piocher">
          <font>
             <Font name="System Bold" size="20.0" />
@@ -75,7 +74,7 @@
       </ImageView>
       <ImageView fx:id="carteMalus" fitHeight="150.0" fitWidth="200.0" layoutX="227.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/stop.png" />
+            <Image url="@images/creve.png" />
          </image>
       </ImageView>
       <Text fill="WHITE" layoutX="17.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ta progression :">
@@ -103,7 +102,7 @@
             <Font size="10.0" />
          </font>
       </Text>
-      <Button fx:id="init11" layoutX="890.0" layoutY="677.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="116.0" style="-fx-border-color: red; -fx-border-width: 20px 0px 0px; -fx-border-radius: 0px; -fx-background-color: white;" text="Jouer">
+      <Button fx:id="init11" layoutX="890.0" layoutY="677.0" mnemonicParsing="false" onMouseClicked="#Jouer" prefHeight="70.0" prefWidth="116.0" style="-fx-border-color: red; -fx-border-width: 20px 0px 0px; -fx-border-radius: 0px; -fx-background-color: white;" text="Jouer">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
