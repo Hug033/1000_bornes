@@ -31,21 +31,6 @@ public class Liste {
         return false;
     }
 
-    public void retirerPremiereOccurence(Carte value) // Complexité O(n)
-    {
-        ElementListe ElementCourant = this.getPremier();
-        boolean retirer = false;
-        ElementListe precedent = null;
-        while (ElementCourant != null && !retirer) {
-            if (ElementCourant.getValeur() == value) {
-                retirer = true;
-                precedent.setSuivant(ElementCourant.getSuivant());
-            }
-            precedent = ElementCourant;
-            ElementCourant = ElementCourant.getSuivant();
-        }
-    }
-
     public void retirerPremiereOccurrence_R(Carte v){
         if (getLongueur() != 0)
         {
@@ -84,25 +69,31 @@ public class Liste {
             return contientRecur(ElementCourant.getSuivant(), value);
     }
 
-    public ElementListe retirerPremiereOccurenceRecur(ElementListe ElementCourant, Carte value) // Complexité O(n)
-    {
-        if (ElementCourant == null)
-            return null;
-        else if (ElementCourant.getValeur() == value) {
-            ElementCourant.setValeur(ElementCourant.getSuivant().getValeur());
-            ElementCourant.setSuivant(ElementCourant.getSuivant().getSuivant());
-            return null;
-        } else if (ElementCourant.getSuivant() != null && ElementCourant.getSuivant().getValeur() == value) {
-            ElementCourant.setSuivant(ElementCourant.getSuivant().getSuivant());
-            return null;
-        } else
-            return new ElementListe(ElementCourant.getValeur(),
-                    retirerPremiereOccurenceRecur(ElementCourant.getSuivant(), value));
-    }
 
     public void ajouterAuDebut(Carte v) {
         ElementListe ancienPremier = premier;
         premier = new ElementListe(v, ancienPremier);
     }
 
+    public Carte Minimum()
+    {
+        ElementListe ElementCourant = this.getPremier();
+        Carte min = ElementCourant.getValeur();
+        while (ElementCourant != null) {
+            if(min.GetType() > ElementCourant.getValeur().GetType())
+                min = ElementCourant.getValeur();
+            ElementCourant = ElementCourant.getSuivant();
+        }
+        return min;
+    }
+
+    public Liste tri_Minimum() {
+        Liste l = new Liste();
+        while(getLongueur() > 0) {
+            Carte min = Minimum();
+            l.ajouterAuDebut(min);
+            retirerPremiereOccurrence_R(min);
+        }
+        return l;
+    }
 }

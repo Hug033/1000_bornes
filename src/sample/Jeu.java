@@ -10,12 +10,17 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import sample.outils.ElementListe;
 import sample.outils.File;
 import sample.outils.Pile;
+import sample.outils.ArbreBinaire;
 
+import java.io.IOException;
 
 public class Jeu extends Application {
 
@@ -23,10 +28,11 @@ public class Jeu extends Application {
 
     public Pile Pioche; // Pioche du jeu
     public File Tas; // Tas du jeu
-    public Joueur j1 = new Joueur(); // Joueur 1
-    public Joueur j2 = new Joueur(); // Joueur Ordinateur
+    public Joueur j1; // Joueur 1
+    public Joueur j2; // Joueur Ordinateur
     public Carte carteSelectionne; // Carte selectionné par le joueur
     public Controller c = new Controller(); // Le controller contenant certaines fonctions
+    public ArbreBinaire statistiques = new ArbreBinaire(); // Arbre des statistiques
     @FXML
     public Text endText;
     @FXML
@@ -58,14 +64,13 @@ public class Jeu extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("jeu.fxml"));
         primaryStage.setTitle("1000 Bornes Hugo BOUILLARD");
+        primaryStage.getIcons().add(new Image(Jeu.class.getResourceAsStream("images/logo.png")));
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root, 1024, 768));
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    public static void main(String[] args) {launch(args);}
 
     // Initialise le jeu en ajoutant les cartes, en créant la pioche et en distribuant les cartes
     public void Initialiser() {
@@ -78,6 +83,8 @@ public class Jeu extends Application {
         endText.setVisible(false);
         j1Progress.setProgress(0);
         j2Progress.setProgress(0);
+        j1 = new Joueur("j1");
+        j2 = new Joueur("j2");
 
         // Il faut construire le tableau avec toutes les cartes existantes dans le mille bornes
         Carte toutesCartes[] = new Carte[100]; // Il y a 100 cartes dans le jeu du mille bornes
@@ -186,6 +193,7 @@ public class Jeu extends Application {
             j1.Main.ajouterAuDebut(Piocher());
             j2.Main.ajouterAuDebut(Piocher());
         }
+        TrierMain(); // On trie la main du joueur
         c.afficherCarteJoueur(this); // On affiche les cartes du joueur sur le plateau
 
         // On ajoute une carte malus a chaque joueur dans la pile des malus (il faut toujours un feu vert pour commencer au 1000 bornes)
@@ -214,11 +222,13 @@ public class Jeu extends Application {
             blurPane.setVisible(true);
             init.setVisible(true);
             endText.setVisible(true);
+            statistiques.Ajouter(1000, j1.id);
         } else if(j2.NbKilometre == 1000) {
             endText.setText("L'ordinateur est plus fort !!");
             blurPane.setVisible(true);
             init.setVisible(true);
             endText.setVisible(true);
+            statistiques.Ajouter(1000, j2.id);
         } else if(t) {
             if(j1.NbKilometre > j2.NbKilometre)
             {
@@ -226,11 +236,13 @@ public class Jeu extends Application {
                 blurPane.setVisible(true);
                 init.setVisible(true);
                 endText.setVisible(true);
+                statistiques.Ajouter(j1.NbKilometre, j1.id);
             } else {
                 endText.setText("L'ordinateur est plus fort !!");
                 blurPane.setVisible(true);
                 init.setVisible(true);
                 endText.setVisible(true);
+                statistiques.Ajouter(j2.NbKilometre, j2.id);
             }
         }
     }
@@ -241,9 +253,13 @@ public class Jeu extends Application {
             Tas.Enfiler(carteSelectionne);
             j1.Main.retirerPremiereOccurrence_R(carteSelectionne);
             j1.Main.ajouterAuDebut(Piocher());
+            TrierMain();
             c.afficherCarteJoueur(this);
             c.resetSelection(this);
+            VerifierGagnant(false);
             JouerOrdinateur();
+        } else {
+            VerifierGagnant(true);
         }
     }
 
@@ -354,6 +370,7 @@ public class Jeu extends Application {
                 j1.Main.ajouterAuDebut(Piocher());
             else
                 VerifierGagnant(true);
+            TrierMain();
             c.afficherCarteJoueur(this);
             c.resetSelection(this);
 
@@ -405,6 +422,12 @@ public class Jeu extends Application {
             VerifierGagnant(true);
     }
 
+    // Permet de trier les cartes du joueur avec le tri minimum (code du tri dans la class Liste)
+    // On affiche donc la main par type de cartes (Type 2 --> etape, ...)
+    private void TrierMain() {
+        j1.Main = j1.Main.tri_Minimum();
+    }
+
     // Permet la gestion de la sélection des cartes sur le plateau
 
     // Sélectionne la carte 1
@@ -454,5 +477,25 @@ public class Jeu extends Application {
         carteSelectionne = j1.Main.getPremier().getSuivant().getSuivant().getSuivant().getSuivant().getSuivant().getSuivant().getValeur();
         c.flouterCarte(this);
         carte7.setOpacity(1.0);
+    }
+
+    // Permet d'afficher la page des statistiques
+    public void afficherStats() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("stats.fxml"));
+        Parent root1 = null;
+        try {
+            root1 = (Parent) fxmlLoader.load();
+            StatController c = fxmlLoader.getController();
+            //statistiques.Ajouter(656,"54");
+            c.init(this.statistiques); // On lui donne l'arbre des statistiques
+            Stage stage = new Stage();
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.getIcons().add(new Image(Jeu.class.getResourceAsStream("images/logo.png")));
+            stage.setTitle("1000 Bornes Hugo BOUILLARD - Stats");
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

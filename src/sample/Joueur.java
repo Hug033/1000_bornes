@@ -9,6 +9,10 @@ public class Joueur {
 
     public Liste Main = new Liste(); // Main du joueur
     public Liste Malus = new Liste(); // Malus du joueur
-    public double NbKilometre = 0.0;
+    public int NbKilometre = 0;
     public String id; // Nom du joueur
+
+    public Joueur(String nom) {
+        this.id = nom;
+    }
 }

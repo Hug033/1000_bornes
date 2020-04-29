@@ -102,6 +102,11 @@
             <Font size="10.0" />
          </font>
       </Text>
+      <Button fx:id="init12" layoutX="972.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#afficherStats" prefHeight="39.0" prefWidth="39.0" style="-fx-border-color: red; -fx-border-width: 15px 0px 0px; -fx-border-radius: 0px; -fx-background-color: white;" text="📈">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
       <Button fx:id="init11" layoutX="890.0" layoutY="677.0" mnemonicParsing="false" onMouseClicked="#Jouer" prefHeight="70.0" prefWidth="116.0" style="-fx-border-color: red; -fx-border-width: 20px 0px 0px; -fx-border-radius: 0px; -fx-background-color: white;" text="Jouer">
          <font>
             <Font name="System Bold" size="20.0" />
