@@ -113,5 +113,10 @@
             <Font name="System Bold" size="44.0" />
          </font>
       </Button>
+      <Text fx:id="endText" fill="WHITE" layoutX="252.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vous avez gagné !!" textAlignment="CENTER" visible="false" wrappingWidth="520.4873046875">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Text>
    </children>
 </Pane>
