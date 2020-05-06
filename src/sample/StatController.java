@@ -35,6 +35,5 @@ public class StatController {
        } catch (NumberFormatException e) {
            rechercheText.setText("");
        }
-
    }
 }

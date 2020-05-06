@@ -2,9 +2,7 @@ package sample;
 
 import sample.outils.Liste;
 
-/*
-La classe joueur pour chaque joueur contient une main (de carte), les malus en cours ainsi que son nom
- */
+// La classe joueur pour chaque joueur contient une main (de carte), les malus en cours ainsi que son nom
 public class Joueur {
 
     public Liste Main = new Liste(); // Main du joueur

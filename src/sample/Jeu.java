@@ -10,11 +10,9 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import sample.outils.ElementListe;
 import sample.outils.File;
 import sample.outils.Pile;
@@ -197,8 +195,8 @@ public class Jeu extends Application {
         c.afficherCarteJoueur(this); // On affiche les cartes du joueur sur le plateau
 
         // On ajoute une carte malus a chaque joueur dans la pile des malus (il faut toujours un feu vert pour commencer au 1000 bornes)
-        setMalus(j1, new Carte("Feu rouge", 0, "stop.png"));
-        setMalus(j2, new Carte("Feu rouge", 0, "stop.png"));
+        ajouterMalus(j1, new Carte("Feu rouge", 0, "stop.png"));
+        ajouterMalus(j2, new Carte("Feu rouge", 0, "stop.png"));
     }
 
     // Retirer une carte de la pioche et la retourne
@@ -207,7 +205,7 @@ public class Jeu extends Application {
     }
 
     // Permet d'ajouter un malus a un joueur (Pile de malus)
-    public void setMalus(Joueur j, Carte c) {
+    public void ajouterMalus(Joueur j, Carte c) {
         j.Malus.ajouterAuDebut(c);
 
         // Permet d'afficher la dernière carte malus du joueur sur le plateau
@@ -404,8 +402,8 @@ public class Jeu extends Application {
 
         // Sinon si l'on possede des attaques on bloque le joueur 1
         else if((carteRobot = trouverCarteParType(j2.Main.getPremier(),0)) != null){
-                setMalus(j1, carteRobot);
-                OrdinateurPioche(carteRobot);
+            ajouterMalus(j1, carteRobot);
+            OrdinateurPioche(carteRobot);
         }
 
         // Sinon on pioche une carte
@@ -486,12 +484,12 @@ public class Jeu extends Application {
         try {
             root1 = (Parent) fxmlLoader.load();
             StatController c = fxmlLoader.getController();
-            //statistiques.Ajouter(656,"54");
             c.init(this.statistiques); // On lui donne l'arbre des statistiques
             Stage stage = new Stage();
             stage.initModality(Modality.WINDOW_MODAL);
             stage.getIcons().add(new Image(Jeu.class.getResourceAsStream("images/logo.png")));
             stage.setTitle("1000 Bornes Hugo BOUILLARD - Stats");
+            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (IOException e) {

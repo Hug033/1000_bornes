@@ -7,8 +7,6 @@ public class Carte {
     private int Km = 0; // Kilomètre de la carte si la carte est du type 'Etapes'
     private String NomImage; // Nom de l'image associé
 
-    Carte(){}
-
     Carte(String Nom, int Type, String NomImage)
     {
         this.Nom = Nom;
