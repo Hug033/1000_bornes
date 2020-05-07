@@ -37,12 +37,12 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Text>
-      <Text fx:id="nbKm" fill="WHITE" layoutX="345.0" layoutY="416.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1000" wrappingWidth="39.8876953125">
+      <Text fx:id="nbKm" fill="WHITE" layoutX="345.0" layoutY="416.0" strokeType="OUTSIDE" strokeWidth="0.0" text="----" wrappingWidth="39.8876953125">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Text>
-      <Text fx:id="nomJoueur" fill="WHITE" layoutX="345.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ordinateur" wrappingWidth="98.8876953125">
+      <Text fx:id="nomJoueur" fill="WHITE" layoutX="345.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="----" wrappingWidth="98.8876953125">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

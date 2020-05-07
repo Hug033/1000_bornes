@@ -24,15 +24,15 @@ public class StatController {
    // Permet de recherche dans l'arbre un nombre de kilomètre
    public void recherche() {
        try {
-           Noeud n = this.a.Recherche(Integer.parseInt(rechercheText.getText()));
+           Noeud n = this.a.Recherche(Integer.parseInt(rechercheText.getText())); // Utilisation de la recherche de l'arbre de recherche
 
            if(n != null)
            {
-               System.out.println("fef");
                this.nbKm.setText(n.valeur + "");
                this.nomJoueur.setText(n.nomJoueur);
            }
        } catch (NumberFormatException e) {
+           // Si l'utilisateur ne rentre pas unnombre correct
            rechercheText.setText("");
        }
    }

@@ -31,6 +31,8 @@ public class Jeu extends Application {
     public Carte carteSelectionne; // Carte selectionné par le joueur
     public Controller c = new Controller(); // Le controller contenant certaines fonctions
     public ArbreBinaire statistiques = new ArbreBinaire(); // Arbre des statistiques
+
+    // Variable uniquement pour la gestion graphique
     @FXML
     public Text endText;
     @FXML
@@ -58,6 +60,7 @@ public class Jeu extends Application {
     @FXML
     public ImageView carteMalus;
 
+    // Démarrage du programme
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("jeu.fxml"));
@@ -68,7 +71,9 @@ public class Jeu extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {launch(args);}
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     // Initialise le jeu en ajoutant les cartes, en créant la pioche et en distribuant les cartes
     public void Initialiser() {
@@ -187,6 +192,7 @@ public class Jeu extends Application {
 
     // Distribue les 7 cartes de chaque joueur
     public void Distribuer() {
+        // On ajoute 7 cartes dans la main des joueur
         for (int i = 0; i < 7; i++) {
             j1.Main.ajouterAuDebut(Piocher());
             j2.Main.ajouterAuDebut(Piocher());
@@ -201,36 +207,37 @@ public class Jeu extends Application {
 
     // Retirer une carte de la pioche et la retourne
     public Carte Piocher() {
-        return Pioche.Depiler();
+        return Pioche.Depiler(); // Dépile la pile de la pioche
     }
 
     // Permet d'ajouter un malus a un joueur (Pile de malus)
     public void ajouterMalus(Joueur j, Carte c) {
-        j.Malus.ajouterAuDebut(c);
+        if (j != null && c != null) {
+            j.Malus.ajouterAuDebut(c);
 
-        // Permet d'afficher la dernière carte malus du joueur sur le plateau
-        carteMalus.setVisible(true);
-        carteMalus.setImage(new Image("file:src/sample/images/" + c.GetNomImage()));
+            // Permet d'afficher la dernière carte malus du joueur sur le plateau
+            carteMalus.setVisible(true);
+            carteMalus.setImage(new Image("file:src/sample/images/" + c.GetNomImage()));
+        }
     }
 
     // Vérifie si un joueur a gagné
     public void VerifierGagnant(boolean t) {
-        if(j1.NbKilometre == 1000) {
+        if (j1.NbKilometre == 1000) {
             endText.setText("Vous avez gagné !!");
             blurPane.setVisible(true);
             init.setVisible(true);
             endText.setVisible(true);
             statistiques.Ajouter(1000, j1.id);
-        } else if(j2.NbKilometre == 1000) {
+        } else if (j2.NbKilometre == 1000) {
             endText.setText("L'ordinateur est plus fort !!");
             blurPane.setVisible(true);
             init.setVisible(true);
             endText.setVisible(true);
             statistiques.Ajouter(1000, j2.id);
-        } else if(t) {
+        } else if (t) {
             // S'il n'y a plus de cartes dans la pioche on prend le nombre de kilomètre le plus élévé
-            if(j1.NbKilometre > j2.NbKilometre)
-            {
+            if (j1.NbKilometre > j2.NbKilometre) {
                 endText.setText("Vous avez gagné !!");
                 blurPane.setVisible(true);
                 init.setVisible(true);
@@ -249,10 +256,10 @@ public class Jeu extends Application {
     // Permet au joueur de piocher
     public void JouerPiocher() {
         if (carteSelectionne != null && !Pioche.Est_vide()) {
-            Tas.Enfiler(carteSelectionne);
-            j1.Main.retirerPremiereOccurrence_R(carteSelectionne);
-            j1.Main.ajouterAuDebut(Piocher());
-            TrierMain();
+            Tas.Enfiler(carteSelectionne); // On ajoute la carte dans la file
+            j1.Main.retirerPremiereOccurrence_R(carteSelectionne); // On la retire de la main
+            j1.Main.ajouterAuDebut(Piocher()); // Puis l'on fais piocher le joueur
+            TrierMain(); // On trie la main du joueur grace au tri minimum
             c.afficherCarteJoueur(this);
             c.resetSelection(this);
             VerifierGagnant(false);
@@ -264,10 +271,10 @@ public class Jeu extends Application {
 
     // Permet de trouver un carte selon le type dans la main de l'ordinateur (Récursif)
     private Carte trouverCarteParType(ElementListe e, int type) {
-        if(e.getValeur() != null) {
-            if(e.getValeur().GetType() == type)
+        if (e.getValeur() != null) {
+            if (e.getValeur().GetType() == type)
                 return e.getValeur();
-            else if(e.getSuivant() != null)
+            else if (e.getSuivant() != null)
                 return trouverCarteParType(e.getSuivant(), type);
         }
         return null;
@@ -275,11 +282,11 @@ public class Jeu extends Application {
 
     // Permet de trouver un carte par nom afin de la jouer (Récursif)
     private boolean trouverCarteParNom(ElementListe e, String nom) {
-        if(e.getValeur() != null) {
-            if(e.getValeur().GetNom() == nom) {
+        if (e.getValeur() != null) {
+            if (e.getValeur().GetNom() == nom) {
                 OrdinateurPioche(e.getValeur());
                 return true;
-            } else if(e.getSuivant() != null)
+            } else if (e.getSuivant() != null)
                 return trouverCarteParNom(e.getSuivant(), nom);
         }
         return false;
@@ -301,15 +308,15 @@ public class Jeu extends Application {
                 else if (carteSelectionne.GetNom() == "Depanneuse" && temp.getValeur().GetNom() == "Accident")
                     return temp.getValeur();
             } else {
-                if (temp.getValeur().GetNom() == "Feu rouge" && trouverCarteParNom(j2.Main.getPremier(),"Feu vert") )
+                if (temp.getValeur().GetNom() == "Feu rouge" && trouverCarteParNom(j2.Main.getPremier(), "Feu vert"))
                     return temp.getValeur();
-                else if (temp.getValeur().GetNom() == "Limitation de vitesse" && trouverCarteParNom(j2.Main.getPremier(),"Fin de limitation") )
+                else if (temp.getValeur().GetNom() == "Limitation de vitesse" && trouverCarteParNom(j2.Main.getPremier(), "Fin de limitation"))
                     return temp.getValeur();
-                else if (temp.getValeur().GetNom() == "Panne seche" && trouverCarteParNom(j2.Main.getPremier(),"Essence"))
+                else if (temp.getValeur().GetNom() == "Panne seche" && trouverCarteParNom(j2.Main.getPremier(), "Essence"))
                     return temp.getValeur();
-                else if (temp.getValeur().GetNom() == "Crevaison" && trouverCarteParNom(j2.Main.getPremier(),"Roue de secours"))
+                else if (temp.getValeur().GetNom() == "Crevaison" && trouverCarteParNom(j2.Main.getPremier(), "Roue de secours"))
                     return temp.getValeur();
-                else if (temp.getValeur().GetNom() == "Accident" && trouverCarteParNom(j2.Main.getPremier(),"Depanneuse"))
+                else if (temp.getValeur().GetNom() == "Accident" && trouverCarteParNom(j2.Main.getPremier(), "Depanneuse"))
                     return temp.getValeur();
             }
             temp = temp.getSuivant(); // On passe à la carte suivante
@@ -325,11 +332,11 @@ public class Jeu extends Application {
             if (j1.Malus.getLongueur() != 0 && carteSelectionne.GetType() == 2)
                 return;
 
-            // Sinon si la carte est une carte malus en l'ajoute à la liste des malus de l'autre joueur
+                // Sinon si la carte est une carte malus en l'ajoute à la liste des malus de l'autre joueur
             else if (carteSelectionne.GetType() == 0)
                 j2.Malus.ajouterAuDebut(carteSelectionne);
 
-            // Sinon si la carte est une carte parade
+                // Sinon si la carte est une carte parade
             else if (carteSelectionne.GetType() == 1) {
                 // On vérifie s'il y a des malus sinon les cartes parades ne sont pas jouables
                 if (j1.Malus.getLongueur() == 0)
@@ -338,7 +345,7 @@ public class Jeu extends Application {
                     return; // Si il n'y a pas de cartes malus que correspond a la carte parade sélectionné l'action n'est pas jouable
                 else {
                     j1.Malus.retirerPremiereOccurrence_R(retirerMalus(j1)); // On retire la carte malus qui correspond à la parade
-                    if(j1.Malus.getLongueur() != 0)
+                    if (j1.Malus.getLongueur() != 0)
                         carteMalus.setImage(new Image("file:src/sample/images/" + j1.Malus.getPremier().getValeur().GetNomImage()));
                     else
                         carteMalus.setVisible(false);
@@ -365,7 +372,7 @@ public class Jeu extends Application {
             } while (temp.getValeur() != carteSelectionne);
             Tas.Enfiler(temp.getValeur());
             j1.Main.retirerPremiereOccurrence_R(temp.getValeur());
-            if(!Pioche.Est_vide())
+            if (!Pioche.Est_vide())
                 j1.Main.ajouterAuDebut(Piocher());
             else
                 VerifierGagnant(true);
@@ -389,7 +396,7 @@ public class Jeu extends Application {
         }
 
         // Sinon si l'on a pas de malus et que l'on peut avancer on avance
-        else if (j2.Malus.getLongueur() == 0 && trouverCarteParType(j2.Main.getPremier(),2) != null) {
+        else if (j2.Malus.getLongueur() == 0 && trouverCarteParType(j2.Main.getPremier(), 2) != null) {
             carteRobot = trouverCarteParType(j2.Main.getPremier(), 2);
             if (j2.NbKilometre + carteRobot.GetKm() <= 1000) {
                 j2.NbKilometre += carteRobot.GetKm();
@@ -402,7 +409,7 @@ public class Jeu extends Application {
         }
 
         // Sinon si l'on possede des attaques on bloque le joueur 1
-        else if((carteRobot = trouverCarteParType(j2.Main.getPremier(),0)) != null){
+        else if ((carteRobot = trouverCarteParType(j2.Main.getPremier(), 0)) != null) {
             ajouterMalus(j1, carteRobot);
             OrdinateurPioche(carteRobot);
         }
@@ -415,7 +422,7 @@ public class Jeu extends Application {
     // Retire une carte du robot pour l'ajouter et en pioche une nouvelle
     private void OrdinateurPioche(Carte c) {
         j2.Main.retirerPremiereOccurrence_R(c); // On retire la carte parade avant de l'envoyer
-        if(!Pioche.Est_vide())
+        if (!Pioche.Est_vide())
             j2.Main.ajouterAuDebut(Piocher());
         else
             VerifierGagnant(true);
