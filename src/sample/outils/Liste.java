@@ -87,7 +87,7 @@ public class Liste {
         return min;
     }
 
-    // COMPLEXITÉ O(n²)
+    // COMPLEXITÉ O(n²) --> Permet de trier un liste par type de carte
     public Liste tri_Minimum() {
         Liste l = new Liste();
         while(getLongueur() > 0) {

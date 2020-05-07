@@ -228,6 +228,7 @@ public class Jeu extends Application {
             endText.setVisible(true);
             statistiques.Ajouter(1000, j2.id);
         } else if(t) {
+            // S'il n'y a plus de cartes dans la pioche on prend le nombre de kilomètre le plus élévé
             if(j1.NbKilometre > j2.NbKilometre)
             {
                 endText.setText("Vous avez gagné !!");
